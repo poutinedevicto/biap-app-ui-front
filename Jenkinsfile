@@ -24,6 +24,7 @@ spec:
         mountPath: /var/lib/containers
     resources:
       requests:
+        memory: "1Gi"
         ephemeral-storage: "4Gi"
   volumes:
   - name: varlibcontainers
@@ -44,7 +45,7 @@ spec:
     stage('Build with Buildah using DockerfileWithoutSSL in provided repo') {
       steps {
         container('buildah') {
-          // LOCAVORA - not using STORAGE_DRIVER=vfs 
+          // LOCAVORA - STORAGE_DRIVER=vfs needed if fuse not supported in kernel (lsmod | grep fuse)
           sh 'buildah build -f DockerfileWithoutSSL -t harbor.beckn.locavora.org/locavora/ondc-buyer-app-frontend:0.1 .'
         }
       }
