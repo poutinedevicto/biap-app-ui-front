@@ -37,10 +37,10 @@ spec:
     IMAGE_REGISTRY_CREDS=credentials('harbor-locavora-readwrite')
   }
   stages {
-    stage('Build with Buildah using Dockerfile in provided repo') {
+    stage('Build with Buildah using DockerfileWithoutSSL in provided repo') {
       steps {
         container('buildah') {
-          sh 'STORAGE_DRIVER=vfs buildah build -t harbor.beckn.locavora.org/locavora/ondc-buyer-app-frontend:0.1 .'
+          sh 'STORAGE_DRIVER=vfs buildah build -f DockerfileWithoutSSL -t harbor.beckn.locavora.org/locavora/ondc-buyer-app-frontend:0.1 .'
         }
       }
     }
