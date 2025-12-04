@@ -1,6 +1,7 @@
 pipeline {
   agent {
-    // LOCAVORA_TODO buildah agent also defined in other Jenkinsfile 
+    // LOCAVORA_TODO buildah agent also defined in other Jenkinsfile
+    // NOTE demande de 4Gi d'espace éphémère car buildah a besoin de beaucoup d'espace pour construire cette image
     kubernetes {
       label 'jenkins-agent-buildah-remote-harbor'
       idleMinutes 60 // Keep the Pod alive for 60 minutes after the build
@@ -21,6 +22,9 @@ spec:
     volumeMounts:
       - name: varlibcontainers
         mountPath: /var/lib/containers
+    resources:
+      requests:
+        ephemeral-storage: "4Gi"
   volumes:
   - name: varlibcontainers
   restartPolicy: Never
