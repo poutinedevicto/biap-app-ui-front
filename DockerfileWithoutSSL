@@ -1,7 +1,7 @@
 # Name the node stage "builder"
 # LOCAVORA WAS
 #FROM node:14 AS builder
-FROM node:16-slim AS builder
+FROM node:14-slim AS builder
 
 # LOCAVORA - defines build-time arguments
 ARG REACT_APP_BASE_URL
