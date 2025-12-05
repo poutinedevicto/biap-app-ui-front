@@ -46,7 +46,8 @@ spec:
       steps {
         container('buildah') {
           // LOCAVORA - STORAGE_DRIVER=vfs needed if fuse not supported in kernel (lsmod | grep fuse)
-          sh 'buildah build -f DockerfileWithoutSSL -t harbor.beckn.locavora.org/locavora/ondc-buyer-app-frontend:0.1 .'
+          // LOCAVORA TEMP - checking if STORAGE_DRIVER=vfs means less I/O usage on Jenkins agent
+          sh 'STORAGE_DRIVER=vfs buildah build -f DockerfileWithoutSSL -t harbor.beckn.locavora.org/locavora/ondc-buyer-app-frontend:0.1 .'
         }
       }
     }

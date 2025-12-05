@@ -29,7 +29,11 @@ WORKDIR /app
 # Copy all files from current directory to working dir in image
 COPY . .
 # install node modules and build assets
-RUN npm install && npm run-script build
+# LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
+#            disable audit and fund messages
+RUN npm ci --no-audit --no-fund
+
+RUN npm run-script build
 
 # nginx state for serving content
 FROM nginx:alpine
