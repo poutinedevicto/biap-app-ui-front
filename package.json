@@ -30,7 +30,7 @@
     "lodash": "^4.17.21",
     "mappls-web-maps": "^3.0.4",
     "moment": "^2.29.1",
-    "node-sass": "^9.0.0",
+    "sass": "latest",
     "razorpay": "^2.9.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
