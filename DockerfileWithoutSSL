@@ -45,4 +45,6 @@ RUN rm -rf ./*
 COPY --from=builder /app/build .
 COPY nginx-without-ssl.conf /etc/nginx/conf.d/default.conf
 # Containers run nginx with global directives and daemon off
+# LOCAVORA use of nginx or not? Using Ingress routes in my tests
+# ORIG ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
