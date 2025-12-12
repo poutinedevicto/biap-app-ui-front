@@ -62,7 +62,7 @@ spec:
       steps {
         container('kaniko') {
           sh '/kaniko/executor \
-              --dockerfile DockerfileWithoutSSL \ 
+              --dockerfile DockerfileWithoutSSL \
               --cache=true \
               --cache-repo $REGISTRY_NAME/$CACHE_NAME \
               --destination $REGISTRY_NAME/$IMAGE_NAME:latest'
