@@ -61,7 +61,7 @@ spec:
     stage('Build with Kaniko Dockerfile in provided repo') {
       steps {
         container('kaniko') {
-          sh '/kaniko/executor \
+          sh '/kaniko/executor -c . \
               --dockerfile DockerfileWithoutSSL \
               --cache=true \
               --cache-repo $REGISTRY_NAME/$CACHE_NAME \
