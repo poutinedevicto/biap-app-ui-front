@@ -3,7 +3,8 @@ pipeline {
     // LOCAVORA_TODO agent also defined in other Jenkinsfile 
     kubernetes {
       label 'jenkins-agent-kaniko-remote-harbor'
-      idleMinutes 60 // Keep the Pod alive for 60 minutes after the build
+      // LOCAVORA - low idleMinutes because we ask for a lot of reseources
+      idleMinutes 10 // Keep the Pod alive for n minutes after the build
       yaml '''
 apiVersion: v1
 kind: Pod
@@ -37,6 +38,8 @@ spec:
 
     resources:
       requests:
+        // LOCAVORA - npm run-script build est gourmand en mémoire 
+        memory: "5Gi"
         # LOCAVORA - max total ephemeral-storage per node under GKE 
         #            is 10Gi, and the other container (jnlp) requests 1Gi 
         ephemeral-storage: 9Gi

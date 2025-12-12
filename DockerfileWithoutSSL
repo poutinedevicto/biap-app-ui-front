@@ -26,14 +26,21 @@ ENV REACT_APP_PAYMENT_SDK_ENV ${REACT_APP_PAYMENT_SDK_ENV}
 ENV REACT_APP_PAYMENT_SERVICE_URL ${REACT_APP_PAYMENT_SERVICE_URL}
 
 WORKDIR /app
-# Copy all files from current directory to working dir in image
-COPY . .
+
+# LOCAVORA copy only package.json and package-lock.json first to leverage Docker cache
+COPY package.json package-lock.json ./
+
 # install node modules and build assets
 # LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
 #            disable audit and fund messages
 # TEMP
 #RUN npm ci --production --no-audit --no-fund
 RUN npm install --no-audit --no-fund
+
+# LOCAVORA copy the rest of the application source code
+COPY src ./src
+COPY public ./public
+COPY tailwind.config.js ./
 
 RUN npm run-script build
 
