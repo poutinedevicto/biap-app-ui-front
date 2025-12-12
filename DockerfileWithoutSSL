@@ -31,7 +31,9 @@ COPY . .
 # install node modules and build assets
 # LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
 #            disable audit and fund messages
-RUN npm ci --production --no-audit --no-fund
+# TEMP
+#RUN npm ci --production --no-audit --no-fund
+RUN npm install --no-audit --no-fund
 
 RUN npm run-script build
 
