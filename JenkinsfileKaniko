@@ -23,8 +23,8 @@ spec:
   
   containers:  
   - name: kaniko
-    # ':debug' aussi disponible avec sh disponible
-    image: martizih/kaniko:latest
+    # ':latest' aussi disponible (mais sans sh - qu'on utilise pour sleep infinity) 
+    image: martizih/kaniko:debug
     # LOCAVORA - on execute sleep infinity to keep the container running
     # les steps "container('kaniko')" vont exec des commandes dans ce container
     command:
