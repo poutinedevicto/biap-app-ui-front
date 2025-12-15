@@ -2,10 +2,10 @@ pipeline {
   agent {
     // LOCAVORA_TODO agent also defined in other Jenkinsfile 
     // LOCAVORA - low idleMinutes because we ask for a lot of resource
+    // LOCAVORA_TODO - build fails if agent still running
     kubernetes {
       label 'jenkins-agent-kaniko-remote-harbor'
-      // LOCAVORA_TODO - build fails if agent still running
-      //idleMinutes 5 // Keep the Pod alive for n minutes after the build
+      idleMinutes 1 // Keep the Pod alive for n minutes after the build
       yaml '''
 apiVersion: v1
 kind: Pod
