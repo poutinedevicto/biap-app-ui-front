@@ -15,6 +15,9 @@ ARG REACT_APP_PAYMENT_SDK_ENV
 ARG REACT_APP_PAYMENT_SERVICE_URL
 
 # LOCAVORA - uses build-time arguments above to set environment variables when the image is run
+# LOCAVORA ATTENTION - these environment variables are embedded into the js build (process.env), so:
+#   1. Changing them at runtime will have no effect
+#   2. They should not contain sensitive information
 ENV REACT_APP_BASE_URL ${REACT_APP_BASE_URL}
 ENV REACT_APP_MMI_BASE_URL ${REACT_APP_MMI_BASE_URL}
 ENV REACT_APP_FIREBASE_API_KEY ${REACT_APP_FIREBASE_API_KEY}

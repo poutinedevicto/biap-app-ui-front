@@ -1,4 +1,4 @@
-# LOCAVORA - DockerfileWithoutSSL is more up to date
+# LOCAVORA - OUTDATED - DockerfileWithoutSSL is up to date
 
 # Name the node stage "builder"
 FROM node:14 AS builder
