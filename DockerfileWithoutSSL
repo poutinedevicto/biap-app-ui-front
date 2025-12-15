@@ -11,8 +11,9 @@ COPY package.json package-lock.json ./
 # install node modules and build assets
 # LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
 #            disable audit and fund messages
-RUN npm ci --production --no-audit --no-fund
-# RUN npm install --no-audit --no-fund
+# LOCAVORA_TODO - fails with "Cannot read property '@codemirror/basic-setup' of undefined"
+# RUN npm ci --production --no-audit --no-fund
+RUN npm install --no-audit --no-fund
 
 # LOCAVORA copy the rest of the application source code
 COPY src ./src
