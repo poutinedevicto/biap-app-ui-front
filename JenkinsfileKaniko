@@ -68,7 +68,7 @@ spec:
           sh '/kaniko/executor -c . \
               --dockerfile DockerfileWithoutSSL \
               --build-arg REACT_APP_FIREBASE_API_KEY=AIzaSyBbdpfSve9tub0MaxY7kXTzbopwRiRRsDg \
-              --build-arg REACT_APP_FIREBASE_AUTH_DOMAIN=beckn-ondc-buyer-app.locavora.org  \
+              --build-arg REACT_APP_FIREBASE_AUTH_DOMAIN=beckn-ondc-buyer-app.firebaseapp.com  \
               --cache=true \
               --cache-repo $REGISTRY_NAME/$CACHE_NAME \
               --destination $REGISTRY_NAME/$IMAGE_NAME:latest'

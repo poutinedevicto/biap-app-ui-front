@@ -3,6 +3,22 @@
 #FROM node:14 AS builder
 FROM node:14-slim AS builder
 
+WORKDIR /app
+
+# LOCAVORA copy only package.json and package-lock.json first to leverage Docker cache
+COPY package.json package-lock.json ./
+
+# install node modules and build assets
+# LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
+#            disable audit and fund messages
+RUN npm ci --production --no-audit --no-fund
+# RUN npm install --no-audit --no-fund
+
+# LOCAVORA copy the rest of the application source code
+COPY src ./src
+COPY public ./public
+COPY tailwind.config.js ./
+
 # LOCAVORA - defines build-time arguments
 ARG REACT_APP_BASE_URL
 ARG REACT_APP_MMI_BASE_URL
@@ -28,35 +44,20 @@ ENV REACT_APP_MERCHANT_KEY_ID ${REACT_APP_MERCHANT_KEY_ID}
 ENV REACT_APP_PAYMENT_SDK_ENV ${REACT_APP_PAYMENT_SDK_ENV}
 ENV REACT_APP_PAYMENT_SERVICE_URL ${REACT_APP_PAYMENT_SERVICE_URL}
 
-WORKDIR /app
-
-# LOCAVORA copy only package.json and package-lock.json first to leverage Docker cache
-COPY package.json package-lock.json ./
-
-# install node modules and build assets
-# LOCAVORA - use npm ci so that dependencies are installed exactly as specified in package-lock.json
-#            disable audit and fund messages
-# TEMP
-#RUN npm ci --production --no-audit --no-fund
-RUN npm install --no-audit --no-fund
-
-# LOCAVORA copy the rest of the application source code
-COPY src ./src
-COPY public ./public
-COPY tailwind.config.js ./
 
 RUN npm run-script build
 
-# nginx state for serving content
+# nginx image for serving built content
 FROM nginx:alpine
+
 # Set working directory to nginx asset directory
 WORKDIR /usr/share/nginx/html
+
 # Remove default nginx static assets
 RUN rm -rf ./*
 # Copy static assets from builder stage
 COPY --from=builder /app/build .
 COPY nginx-without-ssl.conf /etc/nginx/conf.d/default.conf
+
 # Containers run nginx with global directives and daemon off
-# LOCAVORA use of nginx or not? Using Ingress routes in my tests
-# ORIG ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
