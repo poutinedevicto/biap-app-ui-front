@@ -11,8 +11,13 @@ const SingleOutlet = ({ outletDetails, brandImageUrl, brandId }) => {
   const classes = useStyles();
   const history = useHistory();
 
+  /* LOCAVORA - _circle_ not defined jan 2026, commenting out its destructure */
+  /*            The code using radius below was already commented out */
+  /* WAS
   const { id, address, circle } = outletDetails;
   const { radius } = circle;
+  */
+  const { id, address } = outletDetails;
 
   return (
     <div
