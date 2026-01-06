@@ -234,10 +234,10 @@ const ProductDetails = ({ productId }) => {
 
         findItem = customisations
           ? cartItems.find(
-              (item) =>
-                item.item.id === productPayload.id &&
-                checkCustomisationIsAvailableInCart(customisations, item)
-            )
+            (item) =>
+              item.item.id === productPayload.id &&
+              checkCustomisationIsAvailableInCart(customisations, item)
+          )
           : cartItems.find((item) => item.item.id === productPayload.id);
       } else {
         findItem = cartItems.find((item) => item.item.id === productPayload.id);
@@ -419,7 +419,8 @@ const ProductDetails = ({ productId }) => {
       productPayload?.context?.domain == grocery ||
       productPayload?.context?.domain == FnB
     ) {
-      const tags = productPayload.item_details.tags;
+      // LOCAVORA - tags was not always present, default to empty array
+      const tags = productPayload.item_details.tags ?? [];
       let category = "veg";
 
       for (let i = 0; i < tags.length; i++) {
@@ -560,26 +561,26 @@ const ProductDetails = ({ productId }) => {
           : "No",
       Cancellable:
         productPayload.item_details?.["@ondc/org/cancellable"]?.toString() ===
-        "true"
+          "true"
           ? "Yes"
           : "No",
       "Return window value": returnWindowValue,
       Returnable:
         productPayload.item_details?.["@ondc/org/returnable"]?.toString() ===
-        "true"
+          "true"
           ? "Yes"
           : "No",
       "Customer care":
         productPayload.item_details?.[
-          "@ondc/org/contact_details_consumer_care"
+        "@ondc/org/contact_details_consumer_care"
         ],
       "Manufacturer name":
         productPayload.item_details?.[
-          "@ondc/org/statutory_reqs_packaged_commodities"
+        "@ondc/org/statutory_reqs_packaged_commodities"
         ]?.["manufacturer_or_packer_name"],
       "Manufacturer address":
         productPayload.item_details?.[
-          "@ondc/org/statutory_reqs_packaged_commodities"
+        "@ondc/org/statutory_reqs_packaged_commodities"
         ]?.["manufacturer_or_packer_address"],
     };
 
@@ -661,7 +662,10 @@ const ProductDetails = ({ productId }) => {
       back_image_tag &&
       back_image_tag?.list?.find((list_item) => list_item.code === "url")
         ?.value;
-    images.push(back_image);
+    // LOCAVORA - considering back_image as optional
+    if (back_image) {
+      images.push(back_image);
+    }
     return images;
   };
 
@@ -673,7 +677,7 @@ const ProductDetails = ({ productId }) => {
         </div>
       ) : (
         <div>
-          <div className={classes.breadCrumbs} onClick={() => {}}>
+          <div className={classes.breadCrumbs} onClick={() => { }}>
             <Breadcrumbs aria-label="breadcrumb">
               <MuiLink
                 component={Link}
@@ -943,7 +947,7 @@ const ProductDetails = ({ productId }) => {
                     sx={{ flex: 1, textTransform: "none" }}
                     disabled={
                       !parseInt(productDetails?.quantity?.available?.count) >=
-                        1 ||
+                      1 ||
                       itemOutOfStock ||
                       !productAvailability
                     }
