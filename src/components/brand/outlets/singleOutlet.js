@@ -16,6 +16,7 @@ const SingleOutlet = ({ outletDetails, brandImageUrl, brandId }) => {
   /* WAS
   const { id, address, circle } = outletDetails;
   const { radius } = circle;
+   ALSO added check for 'address' below
   */
   const { id, address } = outletDetails;
 
@@ -27,9 +28,11 @@ const SingleOutlet = ({ outletDetails, brandImageUrl, brandId }) => {
       <Card className={classes.outletCard}>
         <img className={classes.outletImage} src={brandImageUrl} alt={`outlet-img-${outletDetails.id}`} />
       </Card>
-      <Typography component="div" variant="body" className={classes.outletNameTypo}>
-        {`${address.street}, ${address.city}`}
-      </Typography>
+      {address &&
+        <Typography component="div" variant="body" className={classes.outletNameTypo}>
+          {`${address.street}, ${address.city}`}
+        </Typography>
+      }
       {/*<Box*/}
       {/*    component={"div"}*/}
       {/*    className={classes.divider}*/}
