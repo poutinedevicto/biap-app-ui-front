@@ -92,7 +92,8 @@ const OutletDetails = (props) => {
         lng: data.circle.gps[1],
       };
       */
-      if (data.time.range.start && data.time.range.end) {
+      // LOCAVORA - locations.time est optionel (1.2.0 spec)
+      if (data.time && (data.time.range.start && data.time.range.end)) {
         data.timings = `${moment(data.time.range.start, "hhmm").format(
           "h:mm a"
         )} - ${moment(data.time.range.end, "hhmm").format("h:mm a")}`;
@@ -104,7 +105,7 @@ const OutletDetails = (props) => {
         // LOCAVORA - isOpen to set?
       }
       setOutletDetails(data);
-      if (data.time.label === "enable") {
+      if (data.time?.label === "enable") {
         setIsStoreDelivering(true);
       } else {
         setIsStoreDelivering(false);
