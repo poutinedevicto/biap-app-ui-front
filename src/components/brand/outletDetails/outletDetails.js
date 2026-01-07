@@ -102,7 +102,9 @@ const OutletDetails = (props) => {
         const endTime = moment(data.time.range.end, "hh:mm");
         data.isOpen = time.isBetween(startTime, endTime);
       } else {
-        // LOCAVORA - isOpen to set?
+        // LOCAVORA - isOpen was not set if no time range
+        // on considère ouvert si pas d'info
+        data.isOpen = true;
       }
       setOutletDetails(data);
       if (data.time?.label === "enable") {
@@ -111,6 +113,7 @@ const OutletDetails = (props) => {
         setIsStoreDelivering(false);
       }
     } catch (err) {
+      console.log("Error fetching outlet details: ", err);
     } finally {
       setIsLoading(false);
     }
