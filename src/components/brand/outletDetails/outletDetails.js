@@ -70,13 +70,14 @@ const OutletDetails = (props) => {
       data.timings = ``;
       data.isOpen = false;
       // LOCAVORA - je ne sais pas d'ou vient ce 'circle' (jan 2026), je le crée ici si absent
+      let gps_str = "";
       if (data.circle) {
         gps_str = data.circle.gps;
       } else {
         gps_str = data.gps;
         data.circle = {};
       }
-      gps = gps_str.split(",");
+      let gps = gps_str.split(",");
       if (gps.length !== 2) {
         throw new Error("Invalid GPS data");
       }
