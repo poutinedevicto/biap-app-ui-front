@@ -69,11 +69,28 @@ const OutletDetails = (props) => {
       let data = await cancellablePromise(getOutletDetailsRequest(outletId));
       data.timings = ``;
       data.isOpen = false;
+      // LOCAVORA - je ne sais pas d'ou vient ce 'circle' (jan 2026), je le crée ici si absent
+      if (data.circle) {
+        gps_str = data.circle.gps;
+      } else {
+        gps_str = data.gps;
+        data.circle = {};
+      }
+      gps = gps_str.split(",");
+      if (gps.length !== 2) {
+        throw new Error("Invalid GPS data");
+      }
+      data.circle.gps = {
+        lat: gps[0],
+        lng: gps[1],
+      };
+      /* WAS
       data.circle.gps = data.circle.gps.split(",");
       data.circle.gps = {
         lat: data.circle.gps[0],
         lng: data.circle.gps[1],
       };
+      */
       if (data.time.range.start && data.time.range.end) {
         data.timings = `${moment(data.time.range.start, "hhmm").format(
           "h:mm a"
@@ -83,6 +100,7 @@ const OutletDetails = (props) => {
         const endTime = moment(data.time.range.end, "hh:mm");
         data.isOpen = time.isBetween(startTime, endTime);
       } else {
+        // LOCAVORA - isOpen to set?
       }
       setOutletDetails(data);
       if (data.time.label === "enable") {
@@ -197,13 +215,11 @@ const OutletDetails = (props) => {
                 variant="body"
                 className={classes.outletNameTypo}
               >
-                {`${
-                  outletDetails?.address
-                    ? `${outletDetails?.address?.street || "-"}, ${
-                        outletDetails?.address?.city || "-"
-                      }`
-                    : "-"
-                }`}
+                {`${outletDetails?.address
+                  ? `${outletDetails?.address?.street || "-"}, ${outletDetails?.address?.city || "-"
+                  }`
+                  : "-"
+                  }`}
               </Typography>
               <Typography
                 component="div"
@@ -273,9 +289,9 @@ const OutletDetails = (props) => {
                     location={
                       outletDetails?.circle?.gps
                         ? [
-                            parseFloat(outletDetails?.circle?.gps?.lat),
-                            parseFloat(outletDetails?.circle?.gps?.lng),
-                          ]
+                          parseFloat(outletDetails?.circle?.gps?.lat),
+                          parseFloat(outletDetails?.circle?.gps?.lng),
+                        ]
                         : null
                     }
                   />
@@ -287,13 +303,11 @@ const OutletDetails = (props) => {
                 variant="body"
                 className={classes.outletNameTypo}
               >
-                {`${
-                  outletDetails?.address
-                    ? `${outletDetails?.address?.street || "-"}, ${
-                        outletDetails?.address?.city || "-"
-                      }`
-                    : "-"
-                }`}
+                {`${outletDetails?.address
+                  ? `${outletDetails?.address?.street || "-"}, ${outletDetails?.address?.city || "-"
+                  }`
+                  : "-"
+                  }`}
               </Typography>
               {/* <Typography
                                 color="primary.main" component="div" variant="body"
