@@ -126,7 +126,8 @@ const OutletDetails = (props) => {
       // const lng = "77.76323574850733";
 
       const latLongInfo = JSON.parse(getValueFromCookie("LatLongInfo"));
-      console.log("LAT", latLongInfo);
+      // LOCAVORA DEBUG 
+      // console.log("Coordonnees", latLongInfo);
       const lat = latLongInfo.lat;
       const lng = latLongInfo.lng;
       const data = await cancellablePromise(
